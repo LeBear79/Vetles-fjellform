@@ -6,102 +6,237 @@
 <title>Toppfotball</title>
 
 <style>
+:root{
+  --bg:#04101f;
+  --panel:#0b1d34;
+  --panel2:#071426;
+  --gold:#f6d36b;
+  --blue:#1e6ee8;
+  --green:#79d84b;
+  --text:#ffffff;
+  --muted:#c7d7ec;
+  --border:#2b527e;
+  --danger:#b43737;
+}
+
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
-  font-family:Arial,sans-serif;
+  font-family:Arial, sans-serif;
   background:radial-gradient(circle at top,#123d75,#06111f 55%,#020812);
-  color:white;
+  color:var(--text);
 }
+
 header{
   text-align:center;
-  padding:28px 14px;
+  padding:28px 14px 18px;
 }
+
 h1{
   margin:0;
-  color:#f6d36b;
-  font-size:38px;
-  letter-spacing:2px;
+  color:var(--gold);
+  font-size:42px;
+  letter-spacing:4px;
+  font-weight:900;
 }
-.slogan{color:#c8ddf5}
+
+.slogan{
+  margin-top:8px;
+  color:var(--muted);
+  font-size:17px;
+}
+
 main{
-  max-width:1050px;
+  max-width:1120px;
   margin:auto;
-  padding:15px;
+  padding:16px;
 }
-.grid{
+
+.layout{
   display:grid;
-  grid-template-columns:360px 1fr;
-  gap:20px;
+  grid-template-columns:370px 1fr;
+  gap:22px;
 }
-.card,.panel{
-  background:#0d1d33;
-  border:1px solid #2d527e;
+
+.card,
+.panel{
+  background:rgba(11,29,52,.96);
+  border:1px solid var(--border);
   border-radius:22px;
   padding:18px;
   margin-bottom:18px;
+  box-shadow:0 0 22px rgba(0,0,0,.25);
 }
+
+h2{
+  margin-top:0;
+  color:var(--gold);
+}
+
+h3{
+  color:var(--gold);
+  margin-bottom:8px;
+}
+
+/* SPILLERKORT */
+
 .player-card{
-  background:linear-gradient(160deg,#07182c,#0f3b72);
-  border:4px solid #f6d36b;
-  border-radius:32px;
-  padding:20px;
+  position:relative;
+  overflow:hidden;
   text-align:center;
-  box-shadow:0 0 30px rgba(246,211,107,.35);
+  padding:20px;
+  border-radius:34px;
+  border:4px solid var(--gold);
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.08),transparent 25%),
+    linear-gradient(160deg,#06111f,#0d2b52 55%,#164d91);
+  box-shadow:0 0 32px rgba(246,211,107,.34);
 }
-.topline{
+
+.player-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 2px,transparent 2px 18px);
+  opacity:.35;
+}
+
+.player-card > *{
+  position:relative;
+  z-index:1;
+}
+
+.card-top{
   display:flex;
   justify-content:space-between;
   align-items:flex-start;
+  font-weight:900;
 }
+
 .ovr{
-  color:#f6d36b;
-  font-size:58px;
-  font-weight:900;
+  font-size:60px;
+  color:var(--gold);
   line-height:.9;
+  text-shadow:0 0 14px rgba(246,211,107,.4);
 }
-.name{
-  font-size:34px;
+
+.ovr-label{
+  font-size:15px;
+}
+
+.player-name{
+  font-size:36px;
   font-weight:900;
-  margin:10px 0;
+  margin:12px 0 8px;
+  letter-spacing:1px;
 }
-.photo{
+
+.photo-frame{
   width:210px;
   height:210px;
+  margin:0 auto;
   border-radius:50%;
-  object-fit:cover;
-  border:5px solid #f6d36b;
+  border:5px solid var(--gold);
   background:#132946;
-}
-.title{
-  color:#f6d36b;
-  font-size:23px;
-  font-weight:bold;
-  margin:12px 0;
-}
-.xpbar{
-  height:14px;
-  background:#132946;
-  border-radius:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   overflow:hidden;
 }
+
+.photo-frame img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.placeholder{
+  color:var(--muted);
+  font-size:14px;
+  padding:15px;
+}
+
+.player-title{
+  color:var(--gold);
+  font-size:24px;
+  font-weight:900;
+  margin:14px 0 10px;
+}
+
+/* XP */
+
+.xp-box{
+  margin-top:12px;
+  background:rgba(0,0,0,.28);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
+  padding:14px;
+}
+
+.xp-text{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-weight:900;
+}
+
+.xpbar{
+  height:30px;
+  background:#132946;
+  border:2px solid #2d527e;
+  border-radius:30px;
+  overflow:hidden;
+  margin:10px 0;
+}
+
 .xpfill{
   height:100%;
   width:0%;
-  background:linear-gradient(90deg,#f6d36b,#fff);
+  background:linear-gradient(90deg,var(--green),#e7ff9d);
+  transition:width .4s ease;
 }
+
+.xp-percent{
+  color:var(--gold);
+  font-size:28px;
+  font-weight:900;
+}
+
 .skills{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:8px;
+  gap:9px;
   margin-top:14px;
 }
+
 .skill{
   background:rgba(0,0,0,.28);
-  border-radius:14px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:15px;
   padding:10px;
 }
-h2,h3{color:#f6d36b}
-input,select,button{
+
+.skill strong{
+  color:var(--gold);
+  font-size:23px;
+}
+
+/* SKJEMA OG PANELER */
+
+label{
+  display:block;
+  margin-top:12px;
+  color:var(--muted);
+  font-weight:bold;
+}
+
+input,
+select,
+button{
   width:100%;
   box-sizing:border-box;
   padding:13px;
@@ -110,73 +245,105 @@ input,select,button{
   font-size:16px;
   margin-top:6px;
 }
-label{
-  display:block;
-  margin-top:12px;
-  color:#c8ddf5;
-  font-weight:bold;
+
+input,
+select{
+  background:#f2f6ff;
+  color:#06111f;
 }
+
 button{
-  background:#f6d36b;
+  background:var(--gold);
   color:#06111f;
   font-weight:900;
   margin-top:18px;
+  cursor:pointer;
 }
+  .goal,
+.report{
+  background:var(--panel2);
+  border-left:5px solid var(--gold);
+  border-radius:15px;
+  padding:15px;
+  line-height:1.55;
+}
+
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:10px;
 }
+
 .stat{
-  background:#07182c;
+  background:var(--panel2);
   border-radius:16px;
   padding:15px;
   text-align:center;
 }
+
 .stat strong{
   display:block;
-  color:#f6d36b;
+  color:var(--gold);
   font-size:30px;
 }
-.report,.goal{
-  background:#07182c;
-  border-left:5px solid #f6d36b;
-  border-radius:14px;
-  padding:15px;
-  line-height:1.5;
-}
+
 .medals{
   display:flex;
   flex-wrap:wrap;
   gap:8px;
 }
+
 .medal{
   background:#142944;
   border:1px solid #416fa4;
   border-radius:14px;
   padding:9px 12px;
 }
+
 .locked{
-  opacity:.35;
+  opacity:.32;
   filter:grayscale(1);
 }
+
 table{
   width:100%;
   border-collapse:collapse;
 }
-th,td{
-  border-bottom:1px solid #2d527e;
+
+th,
+td{
+  border-bottom:1px solid var(--border);
   padding:9px;
   text-align:left;
 }
-th{color:#f6d36b}
+
+th{
+  color:var(--gold);
+}
+
 .danger{
-  background:#b43737;
+  background:var(--danger);
   color:white;
 }
+
+.small{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.45;
+}
+
 @media(max-width:850px){
-  .grid{grid-template-columns:1fr}
-  .stats{grid-template-columns:1fr 1fr}
+  .layout{
+    grid-template-columns:1fr;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  h1{
+    font-size:34px;
+  }
 }
 </style>
 </head>
@@ -184,63 +351,85 @@ th{color:#f6d36b}
 <body>
 
 <header>
-  <h1>⚽ TOPPFOTBALL</h1>
+  <h1>TOPPFOTBALL</h1>
   <p class="slogan" id="slogan">Veien til toppen begynner på bunnen.</p>
 </header>
 
 <main>
-
-<div class="grid">
+<div class="layout">
 
 <section>
   <div class="player-card">
-    <div class="topline">
-      <div>🇳🇴 NOR</div>
+    <div class="card-top">
+      <div>NOR</div>
       <div>
         <div class="ovr" id="ovr">35</div>
-        <div>OVR</div>
+        <div class="ovr-label">OVR</div>
       </div>
     </div>
 
-    <div class="name">VETLE</div>
+    <div class="player-name">VETLE</div>
 
-    <img class="photo" src="vetle.jpg" alt="Bilde av Vetle">
+    <div class="photo-frame">
+      <img src="vetle.jpg" alt="Bilde av Vetle" onerror="showPlaceholder(this)">
+    </div>
 
-    <div class="title" id="playerTitle">🌱 Talent</div>
+    <div class="player-title" id="playerTitle">Talent</div>
 
-    <p>XP til neste OVR: <span id="xpText">0 / 500</span></p>
-    <div class="xpbar"><div class="xpfill" id="xpFill"></div></div>
+    <div class="xp-box">
+      <div class="xp-text">
+        <span>Neste OVR</span>
+        <span id="xpText">0 av 500 XP</span>
+      </div>
+
+      <div class="xpbar">
+        <div class="xpfill" id="xpFill"></div>
+      </div>
+
+      <div class="xp-percent" id="xpPercent">0 %</div>
+      <div id="xpMissing">Du mangler 500 XP</div>
+    </div>
 
     <div class="skills">
-      <div class="skill">❤️ Motor<br><strong id="motor">0</strong></div>
-      <div class="skill">💪 Beinstyrke<br><strong id="strength">0</strong></div>
-      <div class="skill">⚖️ Balanse<br><strong id="balance">0</strong></div>
-      <div class="skill">🧠 Viljestyrke<br><strong id="mind">0</strong></div>
+      <div class="skill">Motor<br><strong id="motor">0</strong></div>
+      <div class="skill">Beinstyrke<br><strong id="strength">0</strong></div>
+      <div class="skill">Balanse<br><strong id="balance">0</strong></div>
+      <div class="skill">Viljestyrke<br><strong id="mind">0</strong></div>
     </div>
   </div>
 
   <div class="card">
-    <h2>🏅 Medaljer</h2>
-    <h3>🥾 Lengde</h3>
+    <h2>Medaljer</h2>
+
+    <h3>Lengde</h3>
     <div id="kmMedals" class="medals"></div>
-    <h3>⛰️ Høydemeter</h3>
+
+    <h3>Høydemeter</h3>
     <div id="heightMedals" class="medals"></div>
-    <h3>👣 Antall turer</h3>
+
+    <h3>Antall turer</h3>
     <div id="tripMedals" class="medals"></div>
-    <h3>🌍 Topper</h3>
+
+    <h3>Topper</h3>
     <div id="peakMedals" class="medals"></div>
   </div>
 </section>
-
 <section>
 
   <div class="panel">
     <h2>🎯 Neste mål</h2>
-    <div id="nextGoal" class="goal">Registrer en tur for å se neste mål.</div>
+    <div id="nextGoal" class="goal">
+      Registrer den første turen din for å begynne reisen mot neste OVR.
+    </div>
   </div>
 
   <div class="panel">
+
     <h2>🥾 Registrer tur</h2>
+
+    <p class="small">
+      Målet er at registreringen skal ta under 30 sekunder.
+    </p>
 
     <label>Navn på tur</label>
     <input id="tripName" type="text" placeholder="F.eks. Kolsåstoppen">
@@ -248,191 +437,293 @@ th{color:#f6d36b}
     <label>Dato</label>
     <input id="tripDate" type="date">
 
-    <label>Kilometer</label>
-    <input id="tripKm" type="number" step="0.1" placeholder="F.eks. 3.2">
+    <label>Lengde (km)</label>
+    <input id="tripKm" type="number" step="0.1" placeholder="3.2">
 
     <label>Høydemeter</label>
-    <input id="tripHeight" type="number" placeholder="F.eks. 150">
+    <input id="tripHeight" type="number" placeholder="150">
 
-    <label>Fart km/t</label>
-    <input id="tripSpeed" type="number" step="0.1" placeholder="F.eks. 3.5">
+    <label>Gjennomsnittsfart (km/t)</label>
+    <input id="tripSpeed" type="number" step="0.1" placeholder="3.5">
 
-    <label>Innsats</label>
+    <label>Hvor hard var turen?</label>
+
     <select id="tripEffort">
-      <option value="1">1 - Lett</option>
-      <option value="2">2 - Ganske lett</option>
-      <option value="3">3 - Bra innsats</option>
-      <option value="4">4 - Sterk innsats</option>
+      <option value="1">1 - Veldig lett</option>
+      <option value="2">2 - Lett</option>
+      <option value="3" selected>3 - Passe</option>
+      <option value="4">4 - Hard</option>
       <option value="5">5 - Maks innsats</option>
     </select>
 
     <label>Ny topp?</label>
+
     <select id="newPeak">
       <option value="nei">Nei</option>
       <option value="ja">Ja</option>
     </select>
 
-    <button onclick="registerTrip()">Registrer tur</button>
+    <button onclick="registerTrip()">
+      Registrer tur
+    </button>
+
   </div>
 
   <div class="panel">
-    <h2>📋 Turrapport</h2>
-    <div id="report" class="report">Ingen tur registrert ennå.</div>
-  </div>
 
-  <div class="panel">
-    <h2>📈 Karriere</h2>
-    <div class="stats">
-      <div class="stat"><strong id="totalTrips">0</strong>turer</div>
-      <div class="stat"><strong id="totalKm">0</strong>km</div>
-      <div class="stat"><strong id="totalHeight">0</strong>hm</div>
-      <div class="stat"><strong id="totalPeaks">0</strong>topper</div>
+    <h2>⚽ Turrapport</h2>
+
+    <div id="report" class="report">
+
+      Ingen tur registrert ennå.
+
     </div>
+
   </div>
 
   <div class="panel">
-    <h2>📜 OVR-historikk</h2>
+
+    <h2>📈 Karriere</h2>
+
+    <div class="stats">
+
+      <div class="stat">
+        <strong id="totalTrips">0</strong>
+        turer
+      </div>
+
+      <div class="stat">
+        <strong id="totalKm">0</strong>
+        km
+      </div>
+
+      <div class="stat">
+        <strong id="totalHeight">0</strong>
+        høydemeter
+      </div>
+
+      <div class="stat">
+        <strong id="totalPeaks">0</strong>
+        topper
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="panel">
+
+    <h2>⭐ OVR-historikk</h2>
+
     <table>
+
       <thead>
-        <tr><th>Dato</th><th>OVR</th><th>Tittel</th></tr>
+
+        <tr>
+
+          <th>Dato</th>
+
+          <th>OVR</th>
+
+          <th>Tittel</th>
+
+        </tr>
+
       </thead>
-      <tbody id="ovrHistory"></tbody>
+
+      <tbody id="ovrHistory">
+
+      </tbody>
+
     </table>
+
   </div>
 
   <div class="panel">
+
     <h2>📋 Alle turer</h2>
+
     <table>
+
       <thead>
-        <tr><th>Dato</th><th>Tur</th><th>Km</th><th>Hm</th></tr>
+
+        <tr>
+
+          <th>Dato</th>
+
+          <th>Tur</th>
+
+          <th>Km</th>
+
+          <th>Hm</th>
+
+        </tr>
+
       </thead>
-      <tbody id="tripList"></tbody>
+
+      <tbody id="tripList">
+
+      </tbody>
+
     </table>
-    <button class="danger" onclick="deleteAll()">Slett alle turer</button>
+
+    <button class="danger" onclick="deleteAll()">
+
+      Slett alle turer
+
+    </button>
+
   </div>
 
 </section>
 
 </div>
+
 </main>
 
 <script>
-let trips = JSON.parse(localStorage.getItem("toppfotballTrips")) || [];
+  let trips = JSON.parse(localStorage.getItem("toppfotballTrips")) || [];
 let history = JSON.parse(localStorage.getItem("toppfotballHistory")) || [];
 
 document.getElementById("tripDate").valueAsDate = new Date();
 
+function showPlaceholder(img){
+  img.parentElement.innerHTML =
+    '<div class="placeholder">Bilde av Vetle<br>kommer senere</div>';
+}
+
 function getTitle(ovr){
-  if(ovr>=99) return "🐐 Legende";
-  if(ovr>=90) return "👑 Verdensklasse";
-  if(ovr>=80) return "🏆 Toppspiller";
-  if(ovr>=70) return "🔥 Matchvinner";
-  if(ovr>=60) return "⭐ Nøkkelspiller";
-  if(ovr>=50) return "💪 Fast på laget";
-  if(ovr>=40) return "⚽ Lovende spiller";
-  return "🌱 Talent";
+  if(ovr >= 99) return "Legende";
+  if(ovr >= 90) return "Verdensklasse";
+  if(ovr >= 80) return "Toppspiller";
+  if(ovr >= 70) return "Matchvinner";
+  if(ovr >= 60) return "Nøkkelspiller";
+  if(ovr >= 50) return "Fast på laget";
+  if(ovr >= 40) return "Lovende spiller";
+  return "Talent";
 }
 
 function getSlogan(ovr){
-  if(ovr>=90) return "Nå handler det om de små prosentene.";
-  if(ovr>=80) return "Toppspillere trener også når det er tungt.";
-  if(ovr>=70) return "Du er nærmere toppen enn da du startet.";
-  if(ovr>=60) return "Ingen topper uten motbakker.";
-  if(ovr>=50) return "Det er innsatsen ingen ser som gjør forskjellen alle ser.";
-  if(ovr>=40) return "Store spillere bygges én tur om gangen.";
+  if(ovr >= 90) return "Nå handler det om de små prosentene.";
+  if(ovr >= 80) return "Toppspillere trener også når det er tungt.";
+  if(ovr >= 70) return "Du er nærmere toppen enn da du startet.";
+  if(ovr >= 60) return "Ingen topper uten motbakker.";
+  if(ovr >= 50) return "Det er innsatsen ingen ser som gjør forskjellen alle ser.";
+  if(ovr >= 40) return "Store spillere bygges én tur om gangen.";
   return "Veien til toppen begynner på bunnen.";
 }
 
 function calculate(){
-  let totalKm=0,totalHeight=0,peaks=0;
-  let motor=0,strength=0,balance=0,mind=0,xp=0;
+  let totalKm = 0;
+  let totalHeight = 0;
+  let peaks = 0;
 
-  trips.forEach(t=>{
-    totalKm+=t.km;
-    totalHeight+=t.height;
-    if(t.newPeak==="ja") peaks++;
+  let motor = 0;
+  let strength = 0;
+  let balance = 0;
+  let mind = 0;
+  let xp = 0;
 
-    motor+=t.km*4+t.speed*2;
-    strength+=t.height*0.08+t.effort*2;
-    balance+=t.height*0.03+(t.newPeak==="ja"?5:1);
-    mind+=t.effort*5+t.km;
+  trips.forEach(t => {
+    totalKm += t.km;
+    totalHeight += t.height;
 
-    xp+=t.km*35+t.height*0.7+t.effort*25;
-    if(t.newPeak==="ja") xp+=80;
+    if(t.newPeak === "ja"){
+      peaks++;
+    }
+
+    motor += t.km * 4 + t.speed * 2;
+    strength += t.height * 0.08 + t.effort * 2;
+    balance += t.height * 0.03 + (t.newPeak === "ja" ? 5 : 1);
+    mind += t.effort * 5 + t.km;
+
+    xp += t.km * 35 + t.height * 0.7 + t.effort * 25;
+
+    if(t.newPeak === "ja"){
+      xp += 80;
+    }
   });
 
-  let ovr=35;
-  let need=500;
-  let left=Math.round(xp);
+  let ovr = 35;
+  let need = 500;
+  let left = Math.round(xp);
 
-  while(left>=need){
+  while(left >= need){
     ovr++;
-    left-=need;
-    need=Math.round(need*1.18);
+    left -= need;
+    need = Math.round(need * 1.18);
   }
 
-  return{
-    totalKm,totalHeight,peaks,
-    motor:Math.round(motor),
-    strength:Math.round(strength),
-    balance:Math.round(balance),
-    mind:Math.round(mind),
-    xpLeft:left,
-    xpNeed:need,
+  return {
+    totalKm,
+    totalHeight,
+    peaks,
+    motor: Math.round(motor),
+    strength: Math.round(strength),
+    balance: Math.round(balance),
+    mind: Math.round(mind),
+    xpLeft: left,
+    xpNeed: need,
     ovr
   };
 }
 
 function registerTrip(){
-  const trip={
-    name:document.getElementById("tripName").value.trim(),
-    date:document.getElementById("tripDate").value,
-    km:Number(document.getElementById("tripKm").value),
-    height:Number(document.getElementById("tripHeight").value),
-    speed:Number(document.getElementById("tripSpeed").value),
-    effort:Number(document.getElementById("tripEffort").value),
-    newPeak:document.getElementById("newPeak").value
+  const trip = {
+    name: document.getElementById("tripName").value.trim(),
+    date: document.getElementById("tripDate").value,
+    km: Number(document.getElementById("tripKm").value),
+    height: Number(document.getElementById("tripHeight").value),
+    speed: Number(document.getElementById("tripSpeed").value),
+    effort: Number(document.getElementById("tripEffort").value),
+    newPeak: document.getElementById("newPeak").value
   };
 
-  if(!trip.name || !trip.date || trip.km<=0 || trip.height<0 || trip.speed<=0){
+  if(!trip.name || !trip.date || trip.km <= 0 || trip.height < 0 || trip.speed <= 0){
     alert("Fyll inn alle feltene.");
     return;
   }
 
-  const oldOvr=calculate().ovr;
+  const oldOvr = calculate().ovr;
 
   trips.push(trip);
-  localStorage.setItem("toppfotballTrips",JSON.stringify(trips));
+  localStorage.setItem("toppfotballTrips", JSON.stringify(trips));
 
-  const stats=calculate();
+  const stats = calculate();
 
-  if(stats.ovr>oldOvr){
-    history.push({date:trip.date,ovr:stats.ovr,title:getTitle(stats.ovr)});
-    localStorage.setItem("toppfotballHistory",JSON.stringify(history));
+  if(stats.ovr > oldOvr){
+    history.push({
+      date: trip.date,
+      ovr: stats.ovr,
+      title: getTitle(stats.ovr)
+    });
+
+    localStorage.setItem("toppfotballHistory", JSON.stringify(history));
   }
 
-  document.getElementById("report").innerHTML=makeReport(trip,stats);
+  document.getElementById("report").innerHTML = makeReport(trip, stats);
+
   clearForm();
   update();
 }
 
-function makeReport(t,s){
-  let focus="❤️ Motor";
-  let text="Denne turen bygget utholdenhet. Det kan hjelpe deg å orke flere løp og holde bedre tempo gjennom hele kampen.";
+function makeReport(t, s){
+  let focus = "Motor";
+  let text = "Denne turen ga god utholdenhetstrening. Det kan hjelpe deg å orke flere løp, presse mer og holde tempoet bedre mot slutten av en fotballkamp.";
 
-  if(t.height>=150){
-    focus="💪 Beinstyrke";
-    text="Motbakkene gjorde at beina måtte jobbe lenge. Dette kan være nyttig for skudd, hopp, dueller og akselerasjoner.";
+  if(t.height >= 150){
+    focus = "Beinstyrke";
+    text = "Denne turen utfordret lårmusklene, leggene og setemuskulaturen i motbakkene. Sterkere bein kan bidra til kraftigere fraspark, bedre akselerasjon, sterkere dueller, høyere hopp og mer kraft i skuddene.";
   }
 
-  if(t.effort>=5){
-    focus="🧠 Viljestyrke";
-    text="Du viste sterk innsats. Å fullføre når det er tungt bygger mental styrke som også er viktig i fotball.";
+  if(t.effort >= 5){
+    focus = "Viljestyrke";
+    text = "Du jobbet hardt selv om turen var krevende. Det bygger mental styrke. På fotballbanen kan det hjelpe deg å fortsette å løpe, kjempe og ta gode valg selv når du er sliten.";
   }
 
-  if(t.newPeak==="ja"){
-    focus="⚖️ Balanse og kroppskontroll";
-    text="En ny topp betyr nytt underlag og nye utfordringer. Det kan styrke balanse og kroppskontroll.";
+  if(t.newPeak === "ja"){
+    focus = "Balanse og kroppskontroll";
+    text = "En ny topp betyr ofte nytt underlag, steiner, røtter og små retningsendringer. Dette kan styrke balanse og kroppskontroll, noe som er nyttig når du vender, dribler og holder deg på beina i dueller.";
   }
 
   return `
@@ -440,33 +731,38 @@ function makeReport(t,s){
     Dagens viktigste fotballferdighet:<br>
     <strong>${focus}</strong><br><br>
     ${text}<br><br>
-    ⭐ XP til neste OVR: ${s.xpLeft} / ${s.xpNeed}
+    Du har nå <strong>${s.xpLeft} av ${s.xpNeed} XP</strong> mot neste OVR.
   `;
 }
 
 function update(){
-  const s=calculate();
+  const s = calculate();
+  const percent = Math.round((s.xpLeft / s.xpNeed) * 100);
+  const missing = s.xpNeed - s.xpLeft;
 
-  document.getElementById("ovr").textContent=s.ovr;
-  document.getElementById("playerTitle").textContent=getTitle(s.ovr);
-  document.getElementById("slogan").textContent=getSlogan(s.ovr);
+  document.getElementById("ovr").textContent = s.ovr;
+  document.getElementById("playerTitle").textContent = getTitle(s.ovr);
+  document.getElementById("slogan").textContent = getSlogan(s.ovr);
 
-  document.getElementById("motor").textContent=s.motor;
-  document.getElementById("strength").textContent=s.strength;
-  document.getElementById("balance").textContent=s.balance;
-  document.getElementById("mind").textContent=s.mind;
+  document.getElementById("motor").textContent = s.motor;
+  document.getElementById("strength").textContent = s.strength;
+  document.getElementById("balance").textContent = s.balance;
+  document.getElementById("mind").textContent = s.mind;
 
-  document.getElementById("xpText").textContent=s.xpLeft+" / "+s.xpNeed;
-  document.getElementById("xpFill").style.width=Math.min(100,(s.xpLeft/s.xpNeed)*100)+"%";
+  document.getElementById("xpText").textContent = s.xpLeft + " av " + s.xpNeed + " XP";
+  document.getElementById("xpMissing").textContent = "Du mangler " + missing + " XP til neste OVR";
+  document.getElementById("xpPercent").textContent = percent + " %";
+  document.getElementById("xpFill").style.width = Math.min(100, percent) + "%";
 
-  document.getElementById("totalTrips").textContent=trips.length;
-  document.getElementById("totalKm").textContent=s.totalKm.toFixed(1);
-  document.getElementById("totalHeight").textContent=Math.round(s.totalHeight);
-  document.getElementById("totalPeaks").textContent=s.peaks;
+  document.getElementById("totalTrips").textContent = trips.length;
+  document.getElementById("totalKm").textContent = s.totalKm.toFixed(1);
+  document.getElementById("totalHeight").textContent = Math.round(s.totalHeight);
+  document.getElementById("totalPeaks").textContent = s.peaks;
 
-  document.getElementById("nextGoal").innerHTML=
-    `⭐ Neste mål er <strong>OVR ${s.ovr+1}</strong>.<br>
-     Du har ${s.xpLeft} av ${s.xpNeed} XP.`;
+  document.getElementById("nextGoal").innerHTML =
+    `Neste mål er <strong>OVR ${s.ovr + 1}</strong>.<br>
+     Du er <strong>${percent} %</strong> på vei.<br>
+     Du mangler <strong>${missing} XP</strong>.`;
 
   updateMedals(s);
   updateTrips();
@@ -474,58 +770,80 @@ function update(){
 }
 
 function updateMedals(s){
-  makeMedals("kmMedals","🥾",3,60,3,s.totalKm,"km");
-  makeMedals("heightMedals","⛰️",100,3000,150,s.totalHeight,"hm");
-  makeMedals("tripMedals","👣",2,30,2,trips.length,"turer");
-  makeMedals("peakMedals","🌍",1,20,1,s.peaks,"topper");
+  makeMedals("kmMedals", "km", 3, 60, 3, s.totalKm);
+  makeMedals("heightMedals", "hm", 100, 3000, 150, s.totalHeight);
+  makeMedals("tripMedals", "turer", 2, 30, 2, trips.length);
+  makeMedals("peakMedals", "topper", 1, 20, 1, s.peaks);
 }
 
-function makeMedals(id,icon,start,max,step,value,label){
-  const box=document.getElementById(id);
-  box.innerHTML="";
-  for(let i=start;i<=max;i+=step){
-    box.innerHTML+=`<div class="medal ${value>=i?"":"locked"}">${icon} ${i} ${label}</div>`;
+function makeMedals(id, label, start, max, step, value){
+  const box = document.getElementById(id);
+  box.innerHTML = "";
+
+  for(let i = start; i <= max; i += step){
+    box.innerHTML += `
+      <div class="medal ${value >= i ? "" : "locked"}">
+        ${i} ${label}
+      </div>
+    `;
   }
 }
 
 function updateTrips(){
-  const list=document.getElementById("tripList");
-  list.innerHTML="";
-  trips.forEach(t=>{
-    list.innerHTML+=`<tr><td>${t.date}</td><td>${t.name}</td><td>${t.km}</td><td>${t.height}</td></tr>`;
+  const list = document.getElementById("tripList");
+  list.innerHTML = "";
+
+  trips.forEach(t => {
+    list.innerHTML += `
+      <tr>
+        <td>${t.date}</td>
+        <td>${t.name}</td>
+        <td>${t.km}</td>
+        <td>${t.height}</td>
+      </tr>
+    `;
   });
 }
 
 function updateHistory(){
-  const box=document.getElementById("ovrHistory");
-  box.innerHTML="";
+  const box = document.getElementById("ovrHistory");
+  box.innerHTML = "";
 
-  if(history.length===0){
-    box.innerHTML="<tr><td>-</td><td>35</td><td>🌱 Talent</td></tr>";
+  if(history.length === 0){
+    box.innerHTML = "<tr><td>-</td><td>35</td><td>Talent</td></tr>";
     return;
   }
 
-  history.forEach(h=>{
-    box.innerHTML+=`<tr><td>${h.date}</td><td>${h.ovr}</td><td>${h.title}</td></tr>`;
+  history.forEach(h => {
+    box.innerHTML += `
+      <tr>
+        <td>${h.date}</td>
+        <td>${h.ovr}</td>
+        <td>${h.title}</td>
+      </tr>
+    `;
   });
 }
 
 function clearForm(){
-  document.getElementById("tripName").value="";
-  document.getElementById("tripKm").value="";
-  document.getElementById("tripHeight").value="";
-  document.getElementById("tripSpeed").value="";
-  document.getElementById("tripEffort").value="3";
-  document.getElementById("newPeak").value="nei";
+  document.getElementById("tripName").value = "";
+  document.getElementById("tripKm").value = "";
+  document.getElementById("tripHeight").value = "";
+  document.getElementById("tripSpeed").value = "";
+  document.getElementById("tripEffort").value = "3";
+  document.getElementById("newPeak").value = "nei";
 }
 
 function deleteAll(){
   if(confirm("Vil du slette alle turer?")){
-    trips=[];
-    history=[];
+    trips = [];
+    history = [];
+
     localStorage.removeItem("toppfotballTrips");
     localStorage.removeItem("toppfotballHistory");
-    document.getElementById("report").innerHTML="Alle turer er slettet.";
+
+    document.getElementById("report").innerHTML = "Alle turer er slettet.";
+
     update();
   }
 }
