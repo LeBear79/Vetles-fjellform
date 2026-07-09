@@ -178,6 +178,7 @@
     <h2>⭐ Spillerprofil</h2>
     <div class="stats-grid">
       <div class="stat"><strong id="overall">35</strong>OVR</div>
+      <div class="stat"><strong id="xpStatus">0 / 500</strong>XP</div>
       <div class="stat"><strong id="totalKm">0</strong>km totalt</div>
       <div class="stat"><strong id="totalHeight">0</strong>høydemeter</div>
       <div class="stat"><strong id="totalTrips">0</strong>turer</div>
@@ -328,7 +329,23 @@
       mind += trip.effort * 5 + trip.km;
     });
 
-    const overall = Math.round(35 + (motor + strength + balance + mind) / 35);
+    const totalXp = Math.round(
+  totalKm * 35 +
+  totalHeight * 0.7 +
+  totalPeaks * 80 +
+  trips.length * 50 +
+  trips.reduce((sum, trip) => sum + trip.effort * 25, 0)
+);
+
+let overall = 35;
+let xpNeeded = 500;
+let xpLeft = totalXp;
+
+while (xpLeft >= xpNeeded) {
+  overall++;
+  xpLeft -= xpNeeded;
+  xpNeeded = Math.round(xpNeeded * 1.18);
+}
 
     return {
       totalKm,
@@ -340,6 +357,20 @@
       balance: Math.round(balance),
       mind: Math.round(mind),
       overall
+      return {
+  totalKm,
+  totalHeight,
+  totalTrips: trips.length,
+  totalPeaks,
+  motor: Math.round(motor),
+  strength: Math.round(strength),
+  balance: Math.round(balance),
+  mind: Math.round(mind),
+  overall,
+  totalXp,
+  xpLeft,
+  xpNeeded
+};
     };
   }
 
@@ -350,6 +381,7 @@
     document.getElementById("totalHeight").textContent = Math.round(stats.totalHeight);
     document.getElementById("totalTrips").textContent = stats.totalTrips;
     document.getElementById("overall").textContent = stats.overall;
+    document.getElementById("xpStatus").textContent = stats.xpLeft + " / " + stats.xpNeeded;
 
     updateSkill("motor", stats.motor);
     updateSkill("strength", stats.strength);
