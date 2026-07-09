@@ -1,1 +1,494 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vetles Fjellform</title>
 
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #07111f;
+      color: white;
+    }
+
+    header {
+      background: linear-gradient(135deg, #0b3b75, #07111f);
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 34px;
+    }
+
+    .subtitle {
+      color: #b9d8ff;
+      margin-top: 8px;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: #101f35;
+      border: 1px solid #24466d;
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.25);
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      color: #d6e8ff;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 18px;
+      background: #18a0fb;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0b7fd0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      background: #0b1728;
+      padding: 15px;
+      border-radius: 14px;
+      text-align: center;
+    }
+
+    .stat strong {
+      font-size: 26px;
+      display: block;
+      color: #57c7ff;
+    }
+
+    .skills {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .skill {
+      background: #0b1728;
+      padding: 14px;
+      border-radius: 14px;
+    }
+
+    .bar {
+      height: 10px;
+      background: #1b3558;
+      border-radius: 10px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: #18a0fb;
+      width: 0%;
+    }
+
+    .medals {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .medal {
+      background: #172a46;
+      border-radius: 14px;
+      padding: 10px 12px;
+      border: 1px solid #2f5f91;
+    }
+
+    .locked {
+      opacity: 0.35;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      border-bottom: 1px solid #24466d;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      color: #9fd0ff;
+    }
+
+    .comment {
+      background: #081729;
+      border-left: 5px solid #18a0fb;
+      padding: 15px;
+      border-radius: 10px;
+      line-height: 1.5;
+    }
+
+    .danger {
+      background: #c0392b;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>⚽ Vetles Fjellform</h1>
+  <p class="subtitle">Fjellturer som bygger fotballmotor, beinstyrke og viljestyrke</p>
+</header>
+
+<main>
+
+  <section class="card">
+    <h2>⭐ Spillerprofil</h2>
+    <div class="stats-grid">
+      <div class="stat"><strong id="overall">35</strong>OVR</div>
+      <div class="stat"><strong id="totalKm">0</strong>km totalt</div>
+      <div class="stat"><strong id="totalHeight">0</strong>høydemeter</div>
+      <div class="stat"><strong id="totalTrips">0</strong>turer</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🥾 Registrer ny tur</h2>
+
+    <label>Navn på turen</label>
+    <input id="tripName" type="text" placeholder="F.eks. Kolsåstoppen" />
+
+    <label>Dato</label>
+    <input id="tripDate" type="date" />
+
+    <label>Lengde i kilometer</label>
+    <input id="tripKm" type="number" step="0.1" placeholder="F.eks. 3.5" />
+
+    <label>Høydemeter</label>
+    <input id="tripHeight" type="number" placeholder="F.eks. 250" />
+
+    <label>Gjennomsnittsfart km/t</label>
+    <input id="tripSpeed" type="number" step="0.1" placeholder="F.eks. 3.8" />
+
+    <label>Innsats</label>
+    <select id="tripEffort">
+      <option value="1">1 - Lett</option>
+      <option value="2">2 - Ganske lett</option>
+      <option value="3">3 - Bra innsats</option>
+      <option value="4">4 - Sterk innsats</option>
+      <option value="5">5 - Maks innsats</option>
+    </select>
+
+    <label>Er dette en ny topp?</label>
+    <select id="newPeak">
+      <option value="nei">Nei</option>
+      <option value="ja">Ja</option>
+    </select>
+
+    <button onclick="registerTrip()">Registrer tur</button>
+  </section>
+
+  <section class="card">
+    <h2>⚽ Fotballferdigheter</h2>
+    <div class="skills">
+      <div class="skill">❤️ Motor <strong id="motor">0</strong><div class="bar"><div id="motorBar" class="bar-fill"></div></div></div>
+      <div class="skill">💪 Beinstyrke <strong id="strength">0</strong><div class="bar"><div id="strengthBar" class="bar-fill"></div></div></div>
+      <div class="skill">⚖️ Balanse <strong id="balance">0</strong><div class="bar"><div id="balanceBar" class="bar-fill"></div></div></div>
+      <div class="skill">🧠 Viljestyrke <strong id="mind">0</strong><div class="bar"><div id="mindBar" class="bar-fill"></div></div></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🤖 Fjelltrenerens kommentar</h2>
+    <div id="coachComment" class="comment">
+      Registrer en tur, så får Vetle en fotballrapport.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🏅 Medaljer</h2>
+    <div id="medals" class="medals"></div>
+  </section>
+
+  <section class="card">
+    <h2>📋 Alle turer</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Dato</th>
+          <th>Tur</th>
+          <th>Km</th>
+          <th>Høydemeter</th>
+          <th>Innsats</th>
+        </tr>
+      </thead>
+      <tbody id="tripList"></tbody>
+    </table>
+
+    <button class="danger" onclick="deleteAllTrips()">Slett alle turer</button>
+  </section>
+
+</main>
+
+<script>
+  let trips = JSON.parse(localStorage.getItem("vetlesTurer")) || [];
+
+  document.getElementById("tripDate").valueAsDate = new Date();
+
+  function registerTrip() {
+    const name = document.getElementById("tripName").value;
+    const date = document.getElementById("tripDate").value;
+    const km = Number(document.getElementById("tripKm").value);
+    const height = Number(document.getElementById("tripHeight").value);
+    const speed = Number(document.getElementById("tripSpeed").value);
+    const effort = Number(document.getElementById("tripEffort").value);
+    const newPeak = document.getElementById("newPeak").value;
+
+    if (!name || !date || km <= 0 || height < 0 || speed <= 0) {
+      alert("Fyll inn tur, dato, kilometer, høydemeter og fart.");
+      return;
+    }
+
+    const trip = {
+      name,
+      date,
+      km,
+      height,
+      speed,
+      effort,
+      newPeak
+    };
+
+    trips.push(trip);
+    localStorage.setItem("vetlesTurer", JSON.stringify(trips));
+
+    document.getElementById("tripName").value = "";
+    document.getElementById("tripKm").value = "";
+    document.getElementById("tripHeight").value = "";
+    document.getElementById("tripSpeed").value = "";
+    document.getElementById("tripEffort").value = "3";
+    document.getElementById("newPeak").value = "nei";
+
+    updatePage(trip);
+  }
+
+  function calculateStats() {
+    let totalKm = 0;
+    let totalHeight = 0;
+    let totalPeaks = 0;
+
+    let motor = 0;
+    let strength = 0;
+    let balance = 0;
+    let mind = 0;
+
+    trips.forEach(trip => {
+      totalKm += trip.km;
+      totalHeight += trip.height;
+
+      if (trip.newPeak === "ja") {
+        totalPeaks++;
+      }
+
+      motor += trip.km * 4 + trip.speed * 2;
+      strength += trip.height * 0.08 + trip.effort * 2;
+      balance += trip.height * 0.03 + (trip.newPeak === "ja" ? 5 : 1);
+      mind += trip.effort * 5 + trip.km;
+    });
+
+    const overall = Math.round(35 + (motor + strength + balance + mind) / 35);
+
+    return {
+      totalKm,
+      totalHeight,
+      totalTrips: trips.length,
+      totalPeaks,
+      motor: Math.round(motor),
+      strength: Math.round(strength),
+      balance: Math.round(balance),
+      mind: Math.round(mind),
+      overall
+    };
+  }
+
+  function updatePage(lastTrip = null) {
+    const stats = calculateStats();
+
+    document.getElementById("totalKm").textContent = stats.totalKm.toFixed(1);
+    document.getElementById("totalHeight").textContent = Math.round(stats.totalHeight);
+    document.getElementById("totalTrips").textContent = stats.totalTrips;
+    document.getElementById("overall").textContent = stats.overall;
+
+    updateSkill("motor", stats.motor);
+    updateSkill("strength", stats.strength);
+    updateSkill("balance", stats.balance);
+    updateSkill("mind", stats.mind);
+
+    updateTripList();
+    updateMedals(stats);
+
+    if (lastTrip) {
+      document.getElementById("coachComment").innerHTML = createComment(lastTrip);
+    }
+  }
+
+  function updateSkill(id, value) {
+    document.getElementById(id).textContent = value;
+    document.getElementById(id + "Bar").style.width = Math.min(value, 100) + "%";
+  }
+
+  function createComment(trip) {
+    let mainFocus = "motor";
+
+    if (trip.height >= 250) {
+      mainFocus = "beinstyrke";
+    }
+
+    if (trip.effort >= 5) {
+      mainFocus = "viljestyrke";
+    }
+
+    if (trip.newPeak === "ja") {
+      mainFocus = "balanse";
+    }
+
+    if (mainFocus === "beinstyrke") {
+      return `
+        <strong>Sterk tur, Vetle!</strong><br><br>
+        Denne turen ga ekstra god trening for <strong>beinstyrke</strong>.
+        Mange høydemeter betyr at lår, legger og hofter må jobbe lenge.
+        På fotballbanen kan dette hjelpe deg i skudd, hopp, dueller og raske akselerasjoner.
+      `;
+    }
+
+    if (mainFocus === "viljestyrke") {
+      return `
+        <strong>Rå innsats, Vetle!</strong><br><br>
+        Denne turen bygget spesielt <strong>viljestyrke</strong>.
+        Når du holder ut selv om det er tungt, trener du den samme mentale styrken
+        som hjelper deg å kjempe helt til dommeren blåser av kampen.
+      `;
+    }
+
+    if (mainFocus === "balanse") {
+      return `
+        <strong>Ny topp er låst opp!</strong><br><br>
+        Når du går nye steder, møter kroppen nytt underlag, nye stier og nye utfordringer.
+        Det bygger <strong>balanse og kroppskontroll</strong>, noe som er viktig når du vender,
+        dribler og holder deg på beina i dueller.
+      `;
+    }
+
+    return `
+      <strong>God motorøkt, Vetle!</strong><br><br>
+      Kilometerne du gikk i dag bygger <strong>motor og utholdenhet</strong>.
+      På fotballbanen betyr det at du kan orke flere løp, flere press og være sterkere
+      mot slutten av kampen.
+    `;
+  }
+
+  function updateTripList() {
+    const list = document.getElementById("tripList");
+    list.innerHTML = "";
+
+    trips.forEach(trip => {
+      list.innerHTML += `
+        <tr>
+          <td>${trip.date}</td>
+          <td>${trip.name}</td>
+          <td>${trip.km}</td>
+          <td>${trip.height}</td>
+          <td>${trip.effort}/5</td>
+        </tr>
+      `;
+    });
+  }
+
+  function updateMedals(stats) {
+    const medals = [];
+
+    for (let km = 3; km <= 60; km += 3) {
+      medals.push({
+        name: `🏃 ${km} km`,
+        unlocked: stats.totalKm >= km
+      });
+    }
+
+    for (let h = 100; h <= 3000; h += 150) {
+      medals.push({
+        name: `⛰️ ${h} høydemeter`,
+        unlocked: stats.totalHeight >= h
+      });
+    }
+
+    for (let t = 2; t <= 30; t += 2) {
+      medals.push({
+        name: `🥾 ${t} turer`,
+        unlocked: stats.totalTrips >= t
+      });
+    }
+
+    medals.push({
+      name: "🌍 5 ulike topper",
+      unlocked: stats.totalPeaks >= 5
+    });
+
+    const medalBox = document.getElementById("medals");
+    medalBox.innerHTML = "";
+
+    medals.forEach(medal => {
+      medalBox.innerHTML += `
+        <div class="medal ${medal.unlocked ? "" : "locked"}">
+          ${medal.name}
+        </div>
+      `;
+    });
+  }
+
+  function deleteAllTrips() {
+    const answer = confirm("Er du sikker på at du vil slette alle turene?");
+    if (answer) {
+      trips = [];
+      localStorage.removeItem("vetlesTurer");
+      document.getElementById("coachComment").innerHTML = "Alle turer er slettet.";
+      updatePage();
+    }
+  }
+
+  updatePage();
+</script>
+
+</body>
+</html>
