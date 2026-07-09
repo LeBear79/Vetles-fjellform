@@ -4,523 +4,790 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vetles Fjellform</title>
-
   <style>
+    :root {
+      --bg: #06111f;
+      --panel: #101f35;
+      --panel2: #07182c;
+      --blue: #1aa7ff;
+      --gold: #f7c948;
+      --green: #4ade80;
+      --red: #fb7185;
+      --text: #f8fafc;
+      --muted: #b7c6d8;
+      --line: #254a73;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #07111f;
-      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(26,167,255,0.22), transparent 35%),
+        linear-gradient(180deg, #07192e, var(--bg));
+      color: var(--text);
     }
 
     header {
-      background: linear-gradient(135deg, #0b3b75, #07111f);
-      padding: 30px 20px;
+      padding: 26px 18px;
       text-align: center;
+      background: linear-gradient(135deg, #082445, #0b3b75 50%, #07111f);
+      border-bottom: 1px solid var(--line);
     }
 
     h1 {
       margin: 0;
-      font-size: 34px;
+      font-size: clamp(32px, 5vw, 56px);
+      letter-spacing: 1px;
     }
 
     .subtitle {
-      color: #b9d8ff;
-      margin-top: 8px;
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 18px;
     }
 
     main {
-      max-width: 1000px;
-      margin: auto;
-      padding: 20px;
+      width: min(1120px, 94vw);
+      margin: 22px auto 50px;
     }
 
-    .card {
-      background: #101f35;
-      border: 1px solid #24466d;
+    .grid {
+      display: grid;
+      grid-template-columns: 330px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    @media (max-width: 850px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    .card, .panel {
+      background: rgba(16,31,53,0.92);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    }
+
+    .player-card {
+      background:
+        linear-gradient(145deg, rgba(247,201,72,0.18), transparent 20%),
+        linear-gradient(160deg, #0b2342, #07111f 70%);
+      border: 3px solid var(--gold);
+      border-radius: 28px;
+      padding: 18px;
+      position: sticky;
+      top: 12px;
+      overflow: hidden;
+    }
+
+    .player-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: conic-gradient(from 90deg, transparent, rgba(247,201,72,0.18), transparent, rgba(26,167,255,0.15), transparent);
+      animation: spin 12s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .player-inner { position: relative; z-index: 1; }
+
+    .player-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 12px;
+    }
+
+    .ovr {
+      font-size: 52px;
+      line-height: 0.9;
+      color: var(--gold);
+      font-weight: 900;
+    }
+
+    .small-label {
+      color: var(--muted);
+      text-transform: uppercase;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .flag { font-size: 30px; }
+
+    .player-name {
+      font-size: 34px;
+      font-weight: 900;
+      margin: 8px 0 2px;
+      letter-spacing: 1px;
+    }
+
+    .player-role {
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .photo {
+      width: 100%;
+      aspect-ratio: 1 / 1.08;
+      object-fit: cover;
+      border-radius: 22px;
+      border: 2px solid rgba(255,255,255,0.18);
+      background: #09203d;
+      margin: 10px 0 14px;
+    }
+
+    .xp-wrap {
+      margin: 12px 0 16px;
+    }
+
+    .progress {
+      height: 14px;
+      background: #203a5f;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--gold));
+      border-radius: 999px;
+      transition: width .4s ease;
+    }
+
+    .attributes {
+      display: grid;
+      gap: 8px;
+    }
+
+    .attr {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 6px;
+      font-weight: bold;
+    }
+
+    .top-panels {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 850px) {
+      .top-panels { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .mini {
+      background: var(--panel2);
+      padding: 16px;
       border-radius: 18px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.25);
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .mini strong {
+      display: block;
+      font-size: 30px;
+      color: #67d5ff;
+    }
+
+    .section-title {
+      margin: 0 0 14px;
+      font-size: 26px;
     }
 
     label {
       display: block;
-      margin-top: 12px;
-      color: #d6e8ff;
+      color: #d7e7fb;
+      margin: 12px 0 6px;
+      font-weight: bold;
     }
 
     input, select, button {
       width: 100%;
-      padding: 12px;
-      margin-top: 6px;
-      border-radius: 10px;
-      border: none;
+      padding: 13px;
+      border-radius: 13px;
+      border: 0;
       font-size: 16px;
-      box-sizing: border-box;
+    }
+
+    input, select {
+      background: #f8fafc;
+      color: #111827;
     }
 
     button {
-      margin-top: 18px;
-      background: #18a0fb;
+      margin-top: 16px;
+      background: linear-gradient(90deg, #0ea5e9, #2563eb);
       color: white;
-      font-weight: bold;
+      font-weight: 900;
       cursor: pointer;
+      letter-spacing: .3px;
     }
 
-    button:hover {
-      background: #0b7fd0;
-    }
+    button:hover { filter: brightness(1.08); }
 
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 12px;
-    }
-
-    .stat {
-      background: #0b1728;
-      padding: 15px;
-      border-radius: 14px;
-      text-align: center;
-    }
-
-    .stat strong {
-      font-size: 26px;
-      display: block;
-      color: #57c7ff;
+    .danger {
+      background: #c0392b;
     }
 
     .skills {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 12px;
     }
 
+    @media (max-width: 600px) {
+      .skills { grid-template-columns: 1fr; }
+    }
+
     .skill {
-      background: #0b1728;
+      background: var(--panel2);
+      border-radius: 18px;
       padding: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .skill-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 9px;
+    }
+
+    .comment {
+      background: #07182c;
+      border-left: 6px solid var(--blue);
+      padding: 16px;
       border-radius: 14px;
+      line-height: 1.55;
+      min-height: 90px;
     }
 
-    .bar {
-      height: 10px;
-      background: #1b3558;
-      border-radius: 10px;
-      margin-top: 8px;
-      overflow: hidden;
+    .result {
+      display: none;
+      background: linear-gradient(135deg, rgba(247,201,72,0.18), rgba(26,167,255,0.12));
+      border: 1px solid rgba(247,201,72,0.55);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 18px;
     }
 
-    .bar-fill {
-      height: 100%;
-      background: #18a0fb;
-      width: 0%;
-    }
+    .result.show { display: block; }
 
     .medals {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+      gap: 12px;
     }
 
     .medal {
-      background: #172a46;
-      border-radius: 14px;
-      padding: 10px 12px;
-      border: 1px solid #2f5f91;
+      background: #0b1728;
+      border: 1px solid #315e8f;
+      border-radius: 18px;
+      padding: 14px;
+      text-align: center;
+      min-height: 98px;
     }
 
-    .locked {
-      opacity: 0.35;
+    .medal .icon { font-size: 34px; display: block; }
+    .medal.unlocked {
+      border-color: var(--gold);
+      box-shadow: 0 0 18px rgba(247,201,72,0.2);
+    }
+
+    .medal.locked {
+      opacity: .36;
+      filter: grayscale(1);
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       font-size: 14px;
+      overflow: hidden;
     }
 
     th, td {
-      border-bottom: 1px solid #24466d;
       padding: 10px;
+      border-bottom: 1px solid var(--line);
       text-align: left;
     }
 
-    th {
-      color: #9fd0ff;
+    th { color: #9fd0ff; }
+
+    .two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
     }
 
-    .comment {
-      background: #081729;
-      border-left: 5px solid #18a0fb;
-      padding: 15px;
-      border-radius: 10px;
-      line-height: 1.5;
+    @media (max-width: 850px) {
+      .two { grid-template-columns: 1fr; }
     }
 
-    .danger {
-      background: #c0392b;
-      margin-top: 10px;
+    .tag {
+      display: inline-block;
+      padding: 5px 10px;
+      background: rgba(26,167,255,0.14);
+      border: 1px solid rgba(26,167,255,0.35);
+      border-radius: 999px;
+      color: #aee2ff;
+      margin: 4px 4px 0 0;
+      font-size: 13px;
+    }
+
+    .level-up {
+      animation: pop 0.7s ease;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(1); }
+      45% { transform: scale(1.08); }
+      100% { transform: scale(1); }
     }
   </style>
 </head>
 
 <body>
-
 <header>
   <h1>⚽ Vetles Fjellform</h1>
   <p class="subtitle">Fjellturer som bygger fotballmotor, beinstyrke og viljestyrke</p>
 </header>
 
 <main>
+  <div class="grid">
+    <aside class="player-card" id="playerCard">
+      <div class="player-inner">
+        <div class="player-top">
+          <div>
+            <div class="ovr" id="overall">35</div>
+            <div class="small-label">OVR</div>
+          </div>
+          <div class="flag">🇳🇴</div>
+        </div>
 
-  <section class="card">
-    <h2>⭐ Spillerprofil</h2>
-    <div class="stats-grid">
-      <div class="stat"><strong id="overall">35</strong>OVR</div>
-      <div class="stat"><strong id="xpStatus">0 / 500</strong>XP</div>
-      <div class="stat"><strong id="totalKm">0</strong>km totalt</div>
-      <div class="stat"><strong id="totalHeight">0</strong>høydemeter</div>
-      <div class="stat"><strong id="totalTrips">0</strong>turer</div>
-    </div>
-  </section>
+        <div class="player-name">VETLE</div>
+        <div class="player-role">Fjellspiller • Mbappé Challenge</div>
 
-  <section class="card">
-    <h2>🥾 Registrer ny tur</h2>
+        <img class="photo" src="data:image/jpeg;base64,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" alt="Bilde av Vetle">
 
-    <label>Navn på turen</label>
-    <input id="tripName" type="text" placeholder="F.eks. Kolsåstoppen" />
+        <div class="xp-wrap">
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <strong>XP til neste OVR</strong>
+            <span id="xpText">0 / 500</span>
+          </div>
+          <div class="progress"><div class="progress-fill" id="xpBar"></div></div>
+        </div>
 
-    <label>Dato</label>
-    <input id="tripDate" type="date" />
+        <div class="attributes">
+          <div class="attr"><span>❤️ Motor</span><span id="cardMotor">35</span></div>
+          <div class="attr"><span>💪 Beinstyrke</span><span id="cardStrength">35</span></div>
+          <div class="attr"><span>⚖️ Balanse</span><span id="cardBalance">35</span></div>
+          <div class="attr"><span>🧠 Viljestyrke</span><span id="cardMind">35</span></div>
+        </div>
+      </div>
+    </aside>
 
-    <label>Lengde i kilometer</label>
-    <input id="tripKm" type="number" step="0.1" placeholder="F.eks. 3.5" />
+    <section>
+      <div class="top-panels">
+        <div class="mini"><strong id="totalKm">0</strong>km</div>
+        <div class="mini"><strong id="totalHeight">0</strong>høydemeter</div>
+        <div class="mini"><strong id="totalTrips">0</strong>turer</div>
+        <div class="mini"><strong id="totalPeaks">0</strong>topper</div>
+      </div>
 
-    <label>Høydemeter</label>
-    <input id="tripHeight" type="number" placeholder="F.eks. 250" />
+      <div class="result" id="resultBox"></div>
 
-    <label>Gjennomsnittsfart km/t</label>
-    <input id="tripSpeed" type="number" step="0.1" placeholder="F.eks. 3.8" />
+      <div class="panel">
+        <h2 class="section-title">🥾 Registrer ny tur</h2>
 
-    <label>Innsats</label>
-    <select id="tripEffort">
-      <option value="1">1 - Lett</option>
-      <option value="2">2 - Ganske lett</option>
-      <option value="3">3 - Bra innsats</option>
-      <option value="4">4 - Sterk innsats</option>
-      <option value="5">5 - Maks innsats</option>
-    </select>
+        <label for="tripName">Navn på turen</label>
+        <input id="tripName" type="text" placeholder="F.eks. Kolsåstoppen" />
 
-    <label>Er dette en ny topp?</label>
-    <select id="newPeak">
-      <option value="nei">Nei</option>
-      <option value="ja">Ja</option>
-    </select>
+        <label for="tripDate">Dato</label>
+        <input id="tripDate" type="date" />
 
-    <button onclick="registerTrip()">Registrer tur</button>
-  </section>
+        <label for="tripKm">Lengde i kilometer</label>
+        <input id="tripKm" type="number" step="0.1" placeholder="F.eks. 3.5" />
 
-  <section class="card">
-    <h2>⚽ Fotballferdigheter</h2>
-    <div class="skills">
-      <div class="skill">❤️ Motor <strong id="motor">0</strong><div class="bar"><div id="motorBar" class="bar-fill"></div></div></div>
-      <div class="skill">💪 Beinstyrke <strong id="strength">0</strong><div class="bar"><div id="strengthBar" class="bar-fill"></div></div></div>
-      <div class="skill">⚖️ Balanse <strong id="balance">0</strong><div class="bar"><div id="balanceBar" class="bar-fill"></div></div></div>
-      <div class="skill">🧠 Viljestyrke <strong id="mind">0</strong><div class="bar"><div id="mindBar" class="bar-fill"></div></div></div>
-    </div>
-  </section>
+        <label for="tripHeight">Høydemeter</label>
+        <input id="tripHeight" type="number" step="1" placeholder="F.eks. 250" />
 
-  <section class="card">
-    <h2>🤖 Fjelltrenerens kommentar</h2>
-    <div id="coachComment" class="comment">
-      Registrer en tur, så får Vetle en fotballrapport.
-    </div>
-  </section>
+        <label for="tripSpeed">Gjennomsnittsfart km/t</label>
+        <input id="tripSpeed" type="number" step="0.1" placeholder="F.eks. 3.8" />
 
-  <section class="card">
-    <h2>🏅 Medaljer</h2>
+        <label for="tripEffort">Innsats</label>
+        <select id="tripEffort">
+          <option value="1">1 - Lett</option>
+          <option value="2">2 - Ganske lett</option>
+          <option value="3">3 - Bra innsats</option>
+          <option value="4">4 - Sterk innsats</option>
+          <option value="5">5 - Maks innsats</option>
+        </select>
+
+        <label for="newPeak">Er dette en ny topp?</label>
+        <select id="newPeak">
+          <option value="nei">Nei</option>
+          <option value="ja">Ja</option>
+        </select>
+
+        <button type="button" id="registerButton">Registrer tur</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="two">
+    <section class="panel">
+      <h2 class="section-title">⚽ Fotballferdigheter</h2>
+      <div class="skills">
+        <div class="skill"><div class="skill-head"><span>❤️ Motor</span><span id="motor">35</span></div><div class="progress"><div class="progress-fill" id="motorBar"></div></div></div>
+        <div class="skill"><div class="skill-head"><span>💪 Beinstyrke</span><span id="strength">35</span></div><div class="progress"><div class="progress-fill" id="strengthBar"></div></div></div>
+        <div class="skill"><div class="skill-head"><span>⚖️ Balanse</span><span id="balance">35</span></div><div class="progress"><div class="progress-fill" id="balanceBar"></div></div></div>
+        <div class="skill"><div class="skill-head"><span>🧠 Viljestyrke</span><span id="mind">35</span></div><div class="progress"><div class="progress-fill" id="mindBar"></div></div></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 class="section-title">🤖 Fjelltrenerens kommentar</h2>
+      <div class="comment" id="coachComment">Registrer en tur, så får Vetle en fotballrapport.</div>
+    </section>
+  </div>
+
+  <section class="panel" style="margin-top:18px;">
+    <h2 class="section-title">🏅 Medaljer</h2>
     <div id="medals" class="medals"></div>
   </section>
 
-  <section class="card">
-    <h2>📋 Alle turer</h2>
+  <section class="panel" style="margin-top:18px;">
+    <h2 class="section-title">📋 Alle turer</h2>
     <table>
       <thead>
         <tr>
-          <th>Dato</th>
-          <th>Tur</th>
-          <th>Km</th>
-          <th>Høydemeter</th>
-          <th>Innsats</th>
+          <th>Dato</th><th>Tur</th><th>Km</th><th>Hm</th><th>Fart</th><th>Innsats</th><th>XP</th>
         </tr>
       </thead>
       <tbody id="tripList"></tbody>
     </table>
-
-    <button class="danger" onclick="deleteAllTrips()">Slett alle turer</button>
+    <button type="button" class="danger" id="deleteButton">Slett alle turer</button>
   </section>
-
 </main>
 
 <script>
-  let trips = JSON.parse(localStorage.getItem("vetlesTurer")) || [];
+(function () {
+  "use strict";
 
-  document.getElementById("tripDate").valueAsDate = new Date();
+  const STORAGE_KEY = "vetlesFjellform_v02";
+  let trips = loadTrips();
 
-  function registerTrip() {
-    const name = document.getElementById("tripName").value;
-    const date = document.getElementById("tripDate").value;
-    const km = Number(document.getElementById("tripKm").value);
-    const height = Number(document.getElementById("tripHeight").value);
-    const speed = Number(document.getElementById("tripSpeed").value);
-    const effort = Number(document.getElementById("tripEffort").value);
-    const newPeak = document.getElementById("newPeak").value;
+  const el = (id) => document.getElementById(id);
 
-    if (!name || !date || km <= 0 || height < 0 || speed <= 0) {
-      alert("Fyll inn tur, dato, kilometer, høydemeter og fart.");
-      return;
+  function loadTrips() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch (error) {
+      return [];
     }
-
-    const trip = {
-      name,
-      date,
-      km,
-      height,
-      speed,
-      effort,
-      newPeak
-    };
-
-    trips.push(trip);
-    localStorage.setItem("vetlesTurer", JSON.stringify(trips));
-
-    document.getElementById("tripName").value = "";
-    document.getElementById("tripKm").value = "";
-    document.getElementById("tripHeight").value = "";
-    document.getElementById("tripSpeed").value = "";
-    document.getElementById("tripEffort").value = "3";
-    document.getElementById("newPeak").value = "nei";
-
-    updatePage(trip);
   }
 
-  function calculateStats() {
-    let totalKm = 0;
-    let totalHeight = 0;
-    let totalPeaks = 0;
+  function saveTrips() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(trips));
+  }
 
-    let motor = 0;
-    let strength = 0;
-    let balance = 0;
-    let mind = 0;
+  function today() {
+    return new Date().toISOString().slice(0, 10);
+  }
 
-    trips.forEach(trip => {
-      totalKm += trip.km;
-      totalHeight += trip.height;
+  function round(value, digits = 0) {
+    return Number(value.toFixed(digits));
+  }
 
-      if (trip.newPeak === "ja") {
-        totalPeaks++;
-      }
+  function calculateTripPoints(trip) {
+    const motor = trip.km * 4 + trip.speed * 2;
+    const strength = trip.height * 0.08 + trip.effort * 2;
+    const balance = trip.height * 0.03 + (trip.newPeak ? 6 : 1);
+    const mind = trip.effort * 5 + trip.km;
 
-      motor += trip.km * 4 + trip.speed * 2;
-      strength += trip.height * 0.08 + trip.effort * 2;
-      balance += trip.height * 0.03 + (trip.newPeak === "ja" ? 5 : 1);
-      mind += trip.effort * 5 + trip.km;
-    });
-
-    const totalXp = Math.round(
-  totalKm * 35 +
-  totalHeight * 0.7 +
-  totalPeaks * 80 +
-  trips.length * 50 +
-  trips.reduce((sum, trip) => sum + trip.effort * 25, 0)
-);
-
-let overall = 35;
-let xpNeeded = 500;
-let xpLeft = totalXp;
-
-while (xpLeft >= xpNeeded) {
-  overall++;
-  xpLeft -= xpNeeded;
-  xpNeeded = Math.round(xpNeeded * 1.18);
-}
+    const xp = Math.round(
+      trip.km * 35 +
+      trip.height * 0.7 +
+      trip.speed * 8 +
+      trip.effort * 35 +
+      (trip.newPeak ? 90 : 0)
+    );
 
     return {
-      totalKm,
-      totalHeight,
-      totalTrips: trips.length,
-      totalPeaks,
       motor: Math.round(motor),
       strength: Math.round(strength),
       balance: Math.round(balance),
       mind: Math.round(mind),
-      overall
-      return {
-  totalKm,
-  totalHeight,
-  totalTrips: trips.length,
-  totalPeaks,
-  motor: Math.round(motor),
-  strength: Math.round(strength),
-  balance: Math.round(balance),
-  mind: Math.round(mind),
-  overall,
-  totalXp,
-  xpLeft,
-  xpNeeded
-};
+      xp
     };
   }
 
-  function updatePage(lastTrip = null) {
-    const stats = calculateStats();
+  function calculateAllStats() {
+    let totalKm = 0;
+    let totalHeight = 0;
+    let totalPeaks = 0;
+    let totalXp = 0;
 
-    document.getElementById("totalKm").textContent = stats.totalKm.toFixed(1);
-    document.getElementById("totalHeight").textContent = Math.round(stats.totalHeight);
-    document.getElementById("totalTrips").textContent = stats.totalTrips;
-    document.getElementById("overall").textContent = stats.overall;
-    document.getElementById("xpStatus").textContent = stats.xpLeft + " / " + stats.xpNeeded;
+    let motorGain = 0;
+    let strengthGain = 0;
+    let balanceGain = 0;
+    let mindGain = 0;
+
+    trips.forEach((trip) => {
+      const points = calculateTripPoints(trip);
+      totalKm += trip.km;
+      totalHeight += trip.height;
+      totalPeaks += trip.newPeak ? 1 : 0;
+      totalXp += points.xp;
+
+      motorGain += points.motor;
+      strengthGain += points.strength;
+      balanceGain += points.balance;
+      mindGain += points.mind;
+    });
+
+    const level = calculateOverall(totalXp);
+    const motor = Math.min(99, 35 + Math.floor(motorGain / 18));
+    const strength = Math.min(99, 35 + Math.floor(strengthGain / 16));
+    const balance = Math.min(99, 35 + Math.floor(balanceGain / 12));
+    const mind = Math.min(99, 35 + Math.floor(mindGain / 16));
+
+    return {
+      totalKm,
+      totalHeight,
+      totalPeaks,
+      totalTrips: trips.length,
+      totalXp,
+      overall: level.overall,
+      xpLeft: level.xpLeft,
+      xpNeeded: level.xpNeeded,
+      xpPercent: level.xpPercent,
+      motor,
+      strength,
+      balance,
+      mind
+    };
+  }
+
+  function calculateOverall(totalXp) {
+    let overall = 35;
+    let xpNeeded = 500;
+    let xpLeft = totalXp;
+
+    while (xpLeft >= xpNeeded && overall < 99) {
+      overall += 1;
+      xpLeft -= xpNeeded;
+      xpNeeded = Math.round(xpNeeded * 1.18);
+    }
+
+    return {
+      overall,
+      xpLeft,
+      xpNeeded,
+      xpPercent: Math.min(100, Math.round((xpLeft / xpNeeded) * 100))
+    };
+  }
+
+  function registerTrip() {
+    const name = el("tripName").value.trim();
+    const date = el("tripDate").value;
+    const km = Number(el("tripKm").value);
+    const height = Number(el("tripHeight").value);
+    const speed = Number(el("tripSpeed").value);
+    const effort = Number(el("tripEffort").value);
+    const newPeak = el("newPeak").value === "ja";
+
+    if (!name || !date || km <= 0 || height < 0 || speed <= 0) {
+      alert("Fyll inn navn, dato, kilometer, høydemeter og fart.");
+      return;
+    }
+
+    const before = calculateAllStats();
+
+    const trip = { name, date, km, height, speed, effort, newPeak };
+    trips.push(trip);
+    saveTrips();
+
+    const after = calculateAllStats();
+    const points = calculateTripPoints(trip);
+
+    clearForm();
+    updatePage();
+    showResult(trip, points, before.overall, after.overall);
+  }
+
+  function clearForm() {
+    el("tripName").value = "";
+    el("tripKm").value = "";
+    el("tripHeight").value = "";
+    el("tripSpeed").value = "";
+    el("tripEffort").value = "3";
+    el("newPeak").value = "nei";
+    el("tripDate").value = today();
+  }
+
+  function showResult(trip, points, oldOverall, newOverall) {
+    const levelText = newOverall > oldOverall
+      ? "<strong>⭐ LEVEL UP! OVR " + oldOverall + " ➜ " + newOverall + "</strong>"
+      : "<strong>OVR " + newOverall + "</strong>";
+
+    const best = getBestSkill(points);
+
+    el("resultBox").classList.add("show");
+    el("resultBox").innerHTML =
+      "<h2>🏔️ Tur fullført!</h2>" +
+      "<p><strong>" + trip.name + "</strong> ga <strong>+" + points.xp + " XP</strong>.</p>" +
+      "<p>" + levelText + "</p>" +
+      "<p>Dagens største utvikling: <strong>" + best + "</strong></p>" +
+      "<span class='tag'>❤️ Motor +" + points.motor + "</span>" +
+      "<span class='tag'>💪 Beinstyrke +" + points.strength + "</span>" +
+      "<span class='tag'>⚖️ Balanse +" + points.balance + "</span>" +
+      "<span class='tag'>🧠 Viljestyrke +" + points.mind + "</span>";
+
+    if (newOverall > oldOverall) {
+      el("playerCard").classList.add("level-up");
+      setTimeout(() => el("playerCard").classList.remove("level-up"), 900);
+    }
+
+    el("coachComment").innerHTML = createCoachComment(trip, points);
+  }
+
+  function getBestSkill(points) {
+    const list = [
+      ["motor", points.motor, "❤️ Motor"],
+      ["strength", points.strength, "💪 Beinstyrke"],
+      ["balance", points.balance, "⚖️ Balanse"],
+      ["mind", points.mind, "🧠 Viljestyrke"]
+    ];
+
+    list.sort((a, b) => b[1] - a[1]);
+    return list[0][2];
+  }
+
+  function createCoachComment(trip, points) {
+    const best = getBestSkill(points);
+
+    if (best.includes("Beinstyrke")) {
+      return "<strong>Sterk tur, Vetle!</strong><br><br>" +
+        "Denne turen bygget spesielt beinstyrke. Høydemeter gjør at lår, legger og hofter må jobbe lenge. " +
+        "På fotballbanen kan dette hjelpe deg i skudd, hopp, dueller og raske akselerasjoner.";
+    }
+
+    if (best.includes("Motor")) {
+      return "<strong>God motorøkt!</strong><br><br>" +
+        "Kilometerne bygger utholdenhet. På fotballbanen betyr det at du kan orke flere løp, presse mer og være sterkere mot slutten av kampen.";
+    }
+
+    if (best.includes("Balanse")) {
+      return "<strong>Balanse og kroppskontroll!</strong><br><br>" +
+        "Nye topper og variert terreng utfordrer kroppen. Det kan hjelpe deg når du vender, dribler og holder deg på beina i dueller.";
+    }
+
+    return "<strong>Rå viljestyrke!</strong><br><br>" +
+      "Høy innsats bygger evnen til å fullføre selv når det blir tungt. Det er samme type mental styrke som trengs i de siste minuttene av en kamp.";
+  }
+
+  function updatePage() {
+    const stats = calculateAllStats();
+
+    el("overall").textContent = stats.overall;
+    el("xpText").textContent = stats.xpLeft + " / " + stats.xpNeeded;
+    el("xpBar").style.width = stats.xpPercent + "%";
+
+    el("totalKm").textContent = round(stats.totalKm, 1);
+    el("totalHeight").textContent = Math.round(stats.totalHeight);
+    el("totalTrips").textContent = stats.totalTrips;
+    el("totalPeaks").textContent = stats.totalPeaks;
 
     updateSkill("motor", stats.motor);
     updateSkill("strength", stats.strength);
     updateSkill("balance", stats.balance);
     updateSkill("mind", stats.mind);
 
-    updateTripList();
-    updateMedals(stats);
+    el("cardMotor").textContent = stats.motor;
+    el("cardStrength").textContent = stats.strength;
+    el("cardBalance").textContent = stats.balance;
+    el("cardMind").textContent = stats.mind;
 
-    if (lastTrip) {
-      document.getElementById("coachComment").innerHTML = createComment(lastTrip);
-    }
+    updateMedals(stats);
+    updateTripList();
   }
 
   function updateSkill(id, value) {
-    document.getElementById(id).textContent = value;
-    document.getElementById(id + "Bar").style.width = Math.min(value, 100) + "%";
-  }
-
-  function createComment(trip) {
-    let mainFocus = "motor";
-
-    if (trip.height >= 250) {
-      mainFocus = "beinstyrke";
-    }
-
-    if (trip.effort >= 5) {
-      mainFocus = "viljestyrke";
-    }
-
-    if (trip.newPeak === "ja") {
-      mainFocus = "balanse";
-    }
-
-    if (mainFocus === "beinstyrke") {
-      return `
-        <strong>Sterk tur, Vetle!</strong><br><br>
-        Denne turen ga ekstra god trening for <strong>beinstyrke</strong>.
-        Mange høydemeter betyr at lår, legger og hofter må jobbe lenge.
-        På fotballbanen kan dette hjelpe deg i skudd, hopp, dueller og raske akselerasjoner.
-      `;
-    }
-
-    if (mainFocus === "viljestyrke") {
-      return `
-        <strong>Rå innsats, Vetle!</strong><br><br>
-        Denne turen bygget spesielt <strong>viljestyrke</strong>.
-        Når du holder ut selv om det er tungt, trener du den samme mentale styrken
-        som hjelper deg å kjempe helt til dommeren blåser av kampen.
-      `;
-    }
-
-    if (mainFocus === "balanse") {
-      return `
-        <strong>Ny topp er låst opp!</strong><br><br>
-        Når du går nye steder, møter kroppen nytt underlag, nye stier og nye utfordringer.
-        Det bygger <strong>balanse og kroppskontroll</strong>, noe som er viktig når du vender,
-        dribler og holder deg på beina i dueller.
-      `;
-    }
-
-    return `
-      <strong>God motorøkt, Vetle!</strong><br><br>
-      Kilometerne du gikk i dag bygger <strong>motor og utholdenhet</strong>.
-      På fotballbanen betyr det at du kan orke flere løp, flere press og være sterkere
-      mot slutten av kampen.
-    `;
-  }
-
-  function updateTripList() {
-    const list = document.getElementById("tripList");
-    list.innerHTML = "";
-
-    trips.forEach(trip => {
-      list.innerHTML += `
-        <tr>
-          <td>${trip.date}</td>
-          <td>${trip.name}</td>
-          <td>${trip.km}</td>
-          <td>${trip.height}</td>
-          <td>${trip.effort}/5</td>
-        </tr>
-      `;
-    });
+    el(id).textContent = value;
+    el(id + "Bar").style.width = Math.min(100, value) + "%";
   }
 
   function updateMedals(stats) {
     const medals = [];
 
     for (let km = 3; km <= 60; km += 3) {
-      medals.push({
-        name: `🏃 ${km} km`,
-        unlocked: stats.totalKm >= km
-      });
+      medals.push({ icon: "🏃", name: km + " km", unlocked: stats.totalKm >= km });
     }
 
     for (let h = 100; h <= 3000; h += 150) {
-      medals.push({
-        name: `⛰️ ${h} høydemeter`,
-        unlocked: stats.totalHeight >= h
-      });
+      medals.push({ icon: "⛰️", name: h + " høydemeter", unlocked: stats.totalHeight >= h });
     }
 
     for (let t = 2; t <= 30; t += 2) {
-      medals.push({
-        name: `🥾 ${t} turer`,
-        unlocked: stats.totalTrips >= t
-      });
+      medals.push({ icon: "🥾", name: t + " turer", unlocked: stats.totalTrips >= t });
     }
 
-    medals.push({
-      name: "🌍 5 ulike topper",
-      unlocked: stats.totalPeaks >= 5
-    });
+    medals.push({ icon: "🌍", name: "5 ulike topper", unlocked: stats.totalPeaks >= 5 });
 
-    const medalBox = document.getElementById("medals");
-    medalBox.innerHTML = "";
+    el("medals").innerHTML = medals.map((medal) =>
+      "<div class='medal " + (medal.unlocked ? "unlocked" : "locked") + "'>" +
+      "<span class='icon'>" + medal.icon + "</span>" +
+      "<strong>" + medal.name + "</strong><br>" +
+      "<small>" + (medal.unlocked ? "Oppnådd" : "Låst") + "</small>" +
+      "</div>"
+    ).join("");
+  }
 
-    medals.forEach(medal => {
-      medalBox.innerHTML += `
-        <div class="medal ${medal.unlocked ? "" : "locked"}">
-          ${medal.name}
-        </div>
-      `;
-    });
+  function updateTripList() {
+    el("tripList").innerHTML = trips.slice().reverse().map((trip) => {
+      const points = calculateTripPoints(trip);
+      return "<tr>" +
+        "<td>" + trip.date + "</td>" +
+        "<td>" + trip.name + "</td>" +
+        "<td>" + trip.km + "</td>" +
+        "<td>" + trip.height + "</td>" +
+        "<td>" + trip.speed + "</td>" +
+        "<td>" + trip.effort + "/5</td>" +
+        "<td>" + points.xp + "</td>" +
+      "</tr>";
+    }).join("");
   }
 
   function deleteAllTrips() {
-    const answer = confirm("Er du sikker på at du vil slette alle turene?");
-    if (answer) {
+    if (confirm("Er du sikker på at du vil slette alle turene?")) {
       trips = [];
-      localStorage.removeItem("vetlesTurer");
-      document.getElementById("coachComment").innerHTML = "Alle turer er slettet.";
+      saveTrips();
+      el("resultBox").classList.remove("show");
+      el("coachComment").innerHTML = "Alle turer er slettet.";
       updatePage();
     }
   }
 
+  el("registerButton").addEventListener("click", registerTrip);
+  el("deleteButton").addEventListener("click", deleteAllTrips);
+  el("tripDate").value = today();
   updatePage();
+})();
 </script>
-
 </body>
 </html>
